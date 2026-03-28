@@ -1,48 +1,50 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
+// Handles register, login, logout, and current user state.
 public class UserService {
-    private final Map<String, User> userMap = new HashMap<>();
+    private final Map<String, User> usersByUsername = new HashMap<>();
     private User currentUser = null;
 
-    public boolean registerUser(String username, String password, String fullname, String contact) {
+    public boolean registerUser(String username, String password, String fullName, String contact) {
         String normalizedUsername = normalize(username);
         if (normalizedUsername.isEmpty() || password == null || password.isBlank()) {
             System.out.println("Username and password are required.");
             return false;
         }
 
-        if (userMap.containsKey(normalizedUsername)) {
+        if (usersByUsername.containsKey(normalizedUsername)) {
             System.out.println("Username already taken. Please choose another username.");
             return false;
         }
 
-        User user = new User(username.trim(), password, safeTrim(fullname), safeTrim(contact));
-        userMap.put(normalizedUsername, user);
+        User user = new User(username.trim(), password, safeTrim(fullName), safeTrim(contact));
+        usersByUsername.put(normalizedUsername, user);
         System.out.println("Registration successful!");
         return true;
     }
 
     public boolean loginUser(String username, String password) {
         String normalizedUsername = normalize(username);
-        if (!userMap.containsKey(normalizedUsername)) {
+        if (!usersByUsername.containsKey(normalizedUsername)) {
             System.out.println("User not found with this username.");
             return false;
         }
 
-        User user = userMap.get(normalizedUsername);
-        if (!user.getPassword().equals(password)) {
+        User user = usersByUsername.get(normalizedUsername);
+        if (password == null || !user.getPassword().equals(password)) {
             System.out.println("Incorrect password.");
             return false;
         }
 
         currentUser = user;
-        System.out.println("Welcome to the platform, " + currentUser.getFullname() + "!");
+        System.out.println("Welcome to the platform, " + currentUser.getFullName() + "!");
         return true;
     }
 
     public void logOutUser() {
         if (currentUser != null) {
-            System.out.println("Logged out: " + currentUser.getFullname());
+            System.out.println("Logged out: " + currentUser.getFullName());
         }
         currentUser = null;
     }

@@ -1,10 +1,10 @@
 # RailConnect
 
-RailConnect is a console-based Java railway booking system inspired by real-world ticketing workflows. It is designed as a clean, beginner-friendly project that demonstrates object-oriented design, service separation, and practical booking logic.
+RailConnect is my Java console project for train ticket booking. I made this project to practice core Java, OOP concepts, and menu-driven program flow.
 
-## Overview
+## What This Project Does
 
-RailConnect supports the full booking lifecycle:
+In this app, a user can:
 
 - User registration and login
 - Train search by source and destination
@@ -13,37 +13,37 @@ RailConnect supports the full booking lifecycle:
 - Ticket cancellation with seat restoration
 - Viewing all available trains
 
-The application runs in an interactive terminal menu and stores data in memory for the current runtime session.
+The app runs in terminal using a menu. Data is stored in memory, so everything resets when the program is closed.
 
 ## Tech Stack
 
-- Java (Core Java, standard library only)
-- Console/CLI interface using Scanner
-- Object-oriented architecture (models + services + app entry)
+- Java (Core Java)
+- Scanner for input
+- OOP classes and service-based structure
 
 ## Project Structure
 
-- IRCTCAPP.java: Application entry point and menu flow
-- UserService.java: User registration, authentication, and session state
-- BookingService.java: Train search, booking, cancellation, and ticket retrieval
-- User.java: User domain model
-- Train.java: Train domain model and seat management
-- Ticket.java: Ticket domain model
+- IRCTCAPP.java: main class with menu flow
+- UserService.java: handles register/login/logout
+- BookingService.java: handles search, booking, and cancellation
+- User.java: user details model
+- Train.java: train details and seat handling
+- Ticket.java: ticket details model
 
-## Key Design Highlights
+## Features I Focused On
 
-- Clear separation of concerns between UI flow and business logic
-- Input validation for numeric and booking operations
-- Immutable domain state where appropriate for safer models
-- Cleaner output formatting for readable console interaction
-- Single-responsibility service classes for maintainability
+- Simple and clear menu flow
+- Input validation for numbers and seat count
+- Separate classes for user, train, and ticket
+- Separate service classes for logic
+- Basic error handling messages
 
 ## Getting Started
 
 ### Prerequisites
 
-- Java 17+ (or Java 11+ with modern switch expression support)
-- Command line terminal (PowerShell, CMD, or similar)
+- Java 11 or above
+- Terminal (CMD / PowerShell)
 
 ### Compile
 
@@ -61,22 +61,34 @@ java IRCTCAPP
 
 ## Usage Flow
 
-1. Start the program.
-2. Register a new account.
-3. Login with your credentials.
-4. Search trains using source and destination stations.
-5. Book a ticket by selecting a valid train ID and seat count.
-6. View or cancel your booked tickets from the user menu.
+1. Run the program.
+2. Register a user.
+3. Login with same username and password.
+4. Search trains by source and destination.
+5. Book ticket by entering train ID and seat count.
+6. View your tickets or cancel a ticket.
 
-## Sample Functional Scenarios
+## Example Cases
 
-- Booking fails gracefully when seat count is invalid.
-- Booking fails when seats are unavailable.
-- Cancellation restores seats to the original train.
-- Ticket list displays only the current user’s bookings.
+- Booking fails if seat count is invalid.
+- Booking fails if seats are not available.
+- Cancel ticket adds seats back to the train.
+- "View My Tickets" shows only logged-in user's tickets.
 
-## Limitations (Current Version)
+## Current Limitations
 
 - Data is in-memory and resets when the program exits.
 - No persistent database storage yet.
 - Single-user runtime session model.
+
+## Suggested Next Improvements
+
+- Save data in file or database
+- Store password in hashed form
+- Add unit testing
+- Add admin panel for train management
+- Add travel date and PNR search
+
+## Author
+
+Asif

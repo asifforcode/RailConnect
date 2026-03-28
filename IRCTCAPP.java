@@ -1,5 +1,7 @@
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
 
+// Main app class that shows menus and takes user input.
 public class IRCTCAPP {
 
     private final Scanner scanner = new Scanner(System.in);
@@ -36,13 +38,13 @@ public class IRCTCAPP {
     }
 
     private void register() {
-        System.out.println("Enter UserName: ");
+        System.out.print("Enter username: ");
         String username = scanner.nextLine().trim();
-        System.out.println("Enter Password: ");
+        System.out.print("Enter password: ");
         String password = scanner.nextLine();
-        System.out.println("Enter FullName: ");
+        System.out.print("Enter full name: ");
         String fullName = scanner.nextLine().trim();
-        System.out.println("Enter Contact: ");
+        System.out.print("Enter contact: ");
         String contact = scanner.nextLine().trim();
 
         userService.registerUser(username, password, fullName, contact);
@@ -102,7 +104,7 @@ public class IRCTCAPP {
     private List<Train> readAndSearchTrains() {
         String source = readLine("Enter source station: ");
         String destination = readLine("Enter destination station: ");
-        List<Train> trains = bookingService.searchTrain(source, destination);
+        List<Train> trains = bookingService.searchTrains(source, destination);
 
         if (trains.isEmpty()) {
             System.out.println("No trains found between " + source + " and " + destination + ".");
@@ -117,10 +119,10 @@ public class IRCTCAPP {
     }
 
     private void bookFromListedTrains(List<Train> trains) {
-        int trainID = readInt("Enter train ID to book: ");
+        int trainId = readInt("Enter train ID to book: ");
         boolean trainExists = false;
         for (Train train : trains) {
-            if (train.getTrainID() == trainID) {
+            if (train.getTrainId() == trainId) {
                 trainExists = true;
                 break;
             }
@@ -132,7 +134,7 @@ public class IRCTCAPP {
         }
 
         int seats = readInt("Enter number of seats to book: ");
-        Ticket ticket = bookingService.bookTicket(userService.getCurrentUser(), trainID, seats);
+        Ticket ticket = bookingService.bookTicket(userService.getCurrentUser(), trainId, seats);
         if (ticket != null) {
             System.out.println("Booking successful!");
             System.out.println(ticket);
@@ -140,21 +142,21 @@ public class IRCTCAPP {
     }
 
     private void viewMyTickets() {
-        List<Ticket> ticketByUser = bookingService.getTicketByUser(userService.getCurrentUser());
-        if (ticketByUser.isEmpty()) {
+        List<Ticket> ticketsByUser = bookingService.getTicketsByUser(userService.getCurrentUser());
+        if (ticketsByUser.isEmpty()) {
             System.out.println("No tickets booked yet.");
             return;
         }
 
         System.out.println("Your tickets:");
-        for (Ticket ticket : ticketByUser) {
+        for (Ticket ticket : ticketsByUser) {
             System.out.println(ticket);
         }
     }
 
     private void cancelTicket() {
-        int ticketID = readInt("Enter ticket ID to cancel: ");
-        bookingService.cancelTicket(ticketID, userService.getCurrentUser());
+        int ticketId = readInt("Enter ticket ID to cancel: ");
+        bookingService.cancelTicket(ticketId, userService.getCurrentUser());
     }
 
     private void exitApp() {
