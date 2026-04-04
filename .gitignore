@@ -1,2 +1,16 @@
+# Compiled Java class files
 *.class
 
+# VS Code Code Runner temp file
+tempCodeRunnerFile.java
+
+# Old entry point (replaced by RailConnect.java)
+IRCTCAPP.java
+
+# IntelliJ IDEA project files
+*.iml
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

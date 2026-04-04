@@ -1,20 +1,22 @@
 import java.util.List;
 import java.util.Scanner;
 
-// Main app class that shows menus and takes user input.
-public class IRCTCAPP {
+// this is the main class, it shows the menu and takes input from user
+public class RailConnect {
 
     private final Scanner scanner = new Scanner(System.in);
     private final UserService userService = new UserService();
     private final BookingService bookingService = new BookingService();
 
     public static void main(String[] args) {
-        new IRCTCAPP().start();
+        new RailConnect().run();
     }
 
-    public void start() {
+    public void run() {
         while (true) {
-            System.out.println("\nWelcome to IRCTC App");
+            System.out.println("\n=============================");
+            System.out.println("     Welcome to RailConnect  ");
+            System.out.println("=============================");
             if (!userService.isLoggedIn()) {
                 showGuestMenu();
             } else {
@@ -33,7 +35,7 @@ public class IRCTCAPP {
             case 1 -> register();
             case 2 -> login();
             case 3 -> exitApp();
-            default -> System.out.println("Invalid choice.");
+            default -> System.out.println("wrong choice, try again");
         }
     }
 
@@ -44,7 +46,7 @@ public class IRCTCAPP {
         String password = scanner.nextLine();
         System.out.print("Enter full name: ");
         String fullName = scanner.nextLine().trim();
-        System.out.print("Enter contact: ");
+        System.out.print("Enter contact number: ");
         String contact = scanner.nextLine().trim();
 
         userService.registerUser(username, password, fullName, contact);
@@ -60,7 +62,7 @@ public class IRCTCAPP {
 
     private void showUserMenu() {
         while (userService.isLoggedIn()) {
-            System.out.println("\n----- User Menu -----");
+            System.out.println("\n----- RailConnect Menu -----");
             System.out.println("1. Search Trains");
             System.out.println("2. Book Ticket");
             System.out.println("3. View My Tickets");
@@ -76,95 +78,100 @@ public class IRCTCAPP {
                 case 4 -> cancelTicket();
                 case 5 -> bookingService.listAllTrains();
                 case 6 -> userService.logOutUser();
-                default -> System.out.println("Invalid choice.");
+                default -> System.out.println("wrong choice, try again");
             }
         }
     }
 
     private void searchTrains() {
-        List<Train> trains = readAndSearchTrains();
+        List<Train> trains = fetchAndDisplayTrains();
         if (trains.isEmpty()) {
             return;
         }
 
-        String choice = readLine("Do you want to book ticket? (yes/no): ");
-        if (choice.equalsIgnoreCase("yes")) {
+        String answer = readLine("want to book a ticket for this train? (yes/no): ");
+        if (answer.equalsIgnoreCase("yes")) {
             bookFromListedTrains(trains);
         }
     }
 
     private void bookTicket() {
-        List<Train> trains = readAndSearchTrains();
+        List<Train> trains = fetchAndDisplayTrains();
         if (trains.isEmpty()) {
             return;
         }
         bookFromListedTrains(trains);
     }
 
-    private List<Train> readAndSearchTrains() {
+    private List<Train> fetchAndDisplayTrains() {
         String source = readLine("Enter source station: ");
         String destination = readLine("Enter destination station: ");
         List<Train> trains = bookingService.searchTrains(source, destination);
 
         if (trains.isEmpty()) {
-            System.out.println("No trains found between " + source + " and " + destination + ".");
+            System.out.println("No trains found from " + source + " to " + destination + ".");
             return trains;
         }
 
-        System.out.println("Available trains:");
+        System.out.println("\nAvailable Trains:");
+        System.out.println("----------------------------------------------------");
         for (Train train : trains) {
             System.out.println(train);
         }
+        System.out.println("----------------------------------------------------");
         return trains;
     }
 
     private void bookFromListedTrains(List<Train> trains) {
-        int trainId = readInt("Enter train ID to book: ");
-        boolean trainExists = false;
+        int trainId = readInt("Enter the Train ID you want to book: ");
+        boolean found = false;
         for (Train train : trains) {
             if (train.getTrainId() == trainId) {
-                trainExists = true;
+                found = true;
                 break;
             }
         }
 
-        if (!trainExists) {
-            System.out.println("Please choose a train ID from the listed trains.");
+        if (!found) {
+            System.out.println("that train id is not in the list above");
             return;
         }
 
-        int seats = readInt("Enter number of seats to book: ");
+        int seats = readInt("Enter number of seats: ");
         Ticket ticket = bookingService.bookTicket(userService.getCurrentUser(), trainId, seats);
         if (ticket != null) {
-            System.out.println("Booking successful!");
+            System.out.println("done! ticket is booked.");
             System.out.println(ticket);
         }
     }
 
     private void viewMyTickets() {
-        List<Ticket> ticketsByUser = bookingService.getTicketsByUser(userService.getCurrentUser());
-        if (ticketsByUser.isEmpty()) {
-            System.out.println("No tickets booked yet.");
+        List<Ticket> myTickets = bookingService.getTicketsByUser(userService.getCurrentUser());
+        if (myTickets.isEmpty()) {
+            System.out.println("you haven't booked any tickets yet");
             return;
         }
 
-        System.out.println("Your tickets:");
-        for (Ticket ticket : ticketsByUser) {
+        System.out.println("\nYour Booked Tickets:");
+        System.out.println("----------------------------------------------------");
+        for (Ticket ticket : myTickets) {
             System.out.println(ticket);
         }
+        System.out.println("----------------------------------------------------");
     }
 
     private void cancelTicket() {
-        int ticketId = readInt("Enter ticket ID to cancel: ");
+        int ticketId = readInt("Enter Ticket ID to cancel: ");
         bookingService.cancelTicket(ticketId, userService.getCurrentUser());
     }
 
     private void exitApp() {
-        System.out.println("Thank you for using IRCTC App.");
+        System.out.println("bye! closing the app now.");
         scanner.close();
         System.exit(0);
     }
 
+    // this method keeps asking until user enters a proper number
     private int readInt(String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -177,6 +184,7 @@ public class IRCTCAPP {
         }
     }
 
+    // reads a line from the user
     private String readLine(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine().trim();

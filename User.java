@@ -1,4 +1,4 @@
-// Stores basic user details.
+// class to store user info like name, username and password
 public class User {
     private final String username;
     private final String password;
@@ -7,10 +7,10 @@ public class User {
 
     public User(String username, String password, String fullName, String contact) {
         if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("Username cannot be empty.");
+            throw new IllegalArgumentException("username can't be blank");
         }
         if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Password cannot be empty.");
+            throw new IllegalArgumentException("password can't be blank");
         }
 
         this.username = username;
@@ -19,23 +19,22 @@ public class User {
         this.password = password;
     }
 
+    // getter method for username
     public String getUsername() {
         return username;
     }
 
+    // getter method for contact number
     public String getContact() {
         return contact;
     }
 
+    // getter method for full name
     public String getFullName() {
         return fullName;
     }
 
-    // Old getter name kept so existing code still works.
-    public String getFullname() {
-        return getFullName();
-    }
-
+    // getter method for password
     public String getPassword() {
         return password;
     }
