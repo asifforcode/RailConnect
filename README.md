@@ -1,95 +1,67 @@
 # RailConnect
 
-RailConnect is a console-based train ticket booking application developed in Core Java.
-Built to practice object-oriented programming, class separation, and building menu-driven CLI tools.
-
----
+RailConnect is a simple console-based train ticket booking application built using Core Java.
+I created this project to strengthen my understanding of object-oriented programming, class design, and handling real-world logic in a menu-driven CLI application.
 
 ## Features
-
-- **User Registration & Login** — Create an account and securely log in before accessing any features.
-- **Train Search** — Search trains by entering source and destination stations.
-- **Ticket Booking** — Choose a train and book your preferred number of seats.
-- **View My Tickets** — See a list of all tickets booked under your account.
-- **Cancel Ticket** — Cancel a specific ticket and get your seats restored to the train.
-- **List All Trains** — Browse the full list of available trains.
-
-All data is stored in memory during the session. The application resets when closed.
-
----
+- **User Registration & Login:** Users can create an account and log in securely before accessing the system.
+- **Train Search:** Search for available trains by entering source and destination stations.
+- **Ticket Booking:** Book tickets by selecting a train and specifying the number of seats.
+- **View My Tickets:** View all tickets booked under the logged-in user.
+- **Cancel Ticket:** Cancel any booked ticket, and the seats are automatically returned to availability.
+- **View All Trains:** Display a list of all trains along with their details.
 
 ## Project Structure
-
-```
+```text
 RailConnect/
-├── RailConnect.java        # Entry point — controls menu flow and user interaction
-├── UserService.java        # Handles registration, login, and session management
-├── BookingService.java     # Manages train search, ticket booking, and cancellation
-├── User.java               # User model — stores account details
-├── Train.java              # Train model — stores route info and seat availability
-└── Ticket.java             # Ticket model — stores booking details
+├── RailConnect.java        # Main class (entry point and menu handling)
+├── UserService.java        # Handles user registration, login, and session
+├── BookingService.java     # Handles booking, searching, and cancellations
+├── User.java               # User data model
+├── Train.java              # Train data model
+└── Ticket.java             # Ticket data model
 ```
-
----
 
 ## Tech Stack
-
-- **Language:** Core Java (Java 11+)
-- **Input:** java.util.Scanner
-- **Design:** Object-Oriented Programming with clear class separation
-
----
+- **Language:** Java (Core Java, Java 11+)
+- **Concepts Used:** OOP (Encapsulation, Separation of Concerns)
+- **Input Handling:** Scanner (`java.util`)
 
 ## Getting Started
 
 ### Prerequisites
-
-- Java 11 or later installed
-- Terminal (CMD, PowerShell, or any shell)
+- Java 11 or above installed
+- Any terminal (CMD, PowerShell, etc.)
 
 ### Compile
-
 ```bash
 javac *.java
 ```
 
 ### Run
-
 ```bash
 java RailConnect
 ```
 
----
+## How to Use
+1. Start the application.
+2. Register a new account.
+3. Log in using your credentials.
+4. Use the menu to:
+   - Search for trains
+   - Book tickets
+   - View your bookings
+   - Cancel tickets
+   - View all trains
+5. Logout or exit when done.
 
-## How It Works
-
-1. Launch the application — a welcome banner appears.
-2. **Register** a new account using a unique username and password.
-3. **Login** with your credentials.
-4. From the main menu, you can:
-   - Search trains by route
-   - Book tickets by entering a Train ID and seat count
-   - View all your booked tickets
-   - Cancel a ticket using its Ticket ID
-   - Browse all available trains
-5. **Logout** or choose **Exit** to close the app.
-
----
-
-## Sample Scenarios
-
-| Scenario | Result |
-|---|---|
-| Book with 0 seats | Rejected with an error |
-| Book more seats than available | Booking fails |
-| Cancel a valid ticket | Seats restored to train |
-| View tickets after cancellation | Cancelled ticket removed from list |
-| Login with wrong password | Access denied |
-
----
+## Sample Behaviors
+- Booking 0 seats → Not allowed
+- Booking more seats than available → Fails
+- Cancelling a ticket → Seats are restored
+- Wrong login credentials → Access denied
 
 ## Limitations
-
-- Data does not persist — all records reset when the app is closed.
-- Only one user session is active at a time.
-- No database or file storage is used.
+- No data persistence (everything resets after exit)
+- Only one user can use the system at a time
+- No database integration (purely in-memory)
